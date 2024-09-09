@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "874956528466",
+    "project_id": "movil-5a335",
+    "storage_bucket": "movil-5a335.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:874956528466:android:3042e14f74b80f86b3b88b",
+        "android_client_info": {
+          "package_name": "com.example.myapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCyMI4xATJ7RJPRJ2s_14hkJ-cTP5e02nU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

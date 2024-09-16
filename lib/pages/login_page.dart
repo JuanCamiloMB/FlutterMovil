@@ -1,74 +1,38 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:myapp/auth.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
-
-  @override
-  State<LoginPage> createState() => _LoginPageState();
-}
-
-class _LoginPageState extends State<LoginPage> {
-  String? errorMessage = '';
-  bool isLogin = true;
-
+class LoginPage extends StatelessWidget {
+  LoginPage({super.key});
   final TextEditingController _controllerEmail = TextEditingController();
   final TextEditingController _controllerPassword = TextEditingController();
 
   Future<void> signInWithEmailAndPassword() async {
-    try {
-      await Auth().signInWithEmailAndPassword(
-          email: _controllerEmail.text, password: _controllerPassword.text);
-    } on FirebaseAuthException catch (e) {
-      setState(() {
-        errorMessage = e.message;
-      });
-    }
+    await Auth().signInWithEmailAndPassword(
+        email: _controllerEmail.text, password: _controllerPassword.text);
   }
 
-  Future<void> createUserWithEmailAndPassword() async {
-    try {
-      await Auth().createWithEmailAndPassword(
-          email: _controllerEmail.text, password: _controllerPassword.text);
-    } on FirebaseAuthException catch (e) {
-      setState(() {
-        errorMessage = e.message;
-      });
-    }
-  }
-
-  Widget _title() {
+    Widget _title() {
     return const Text('Firebase Auth');
   }
 
-  Widget _entryField(String title, TextEditingController controller) {
+    Widget _entryField(String title, TextEditingController controller) {
     return TextField(
       controller: controller,
       decoration: InputDecoration(labelText: title),
     );
   }
 
-  Widget _errorMessage() {
-    return Text(errorMessage == '' ? '' : 'Humm ? $errorMessage');
-  }
-
-  Widget _submitButton() {
+  Widget _submitButton(context) {
     return ElevatedButton(
-        onPressed: isLogin
-            ? signInWithEmailAndPassword
-            : createUserWithEmailAndPassword,
-        child: Text(isLogin ? 'Login' : 'Register'));
-  }
-
-  Widget _loginOrRegisterButton() {
-    return TextButton(
-        onPressed: () {
-          setState(() {
-            isLogin = !isLogin;
-          });
+        onPressed: () async {
+          try{
+            await signInWithEmailAndPassword();
+            Navigator.pushReplacementNamed(context, '/home');
+          }catch(e){
+            print('Login failed: $e');
+          }
         },
-        child: Text(isLogin ? 'Register' : 'Login'));
+        child: const Text('Login'));
   }
 
   @override
@@ -87,9 +51,9 @@ class _LoginPageState extends State<LoginPage> {
           children: <Widget>[
             _entryField('email', _controllerEmail),
             _entryField('password', _controllerPassword),
-            _errorMessage(),
-            _submitButton(),
-            _loginOrRegisterButton()
+            // _errorMessage(),
+            _submitButton(context),
+            // _loginOrRegisterButton()
           ],
         ),
       ),

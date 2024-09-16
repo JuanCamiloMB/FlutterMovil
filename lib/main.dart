@@ -1,12 +1,17 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:myapp/widget_tree.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:myapp/pages/home_page.dart';
+import 'package:myapp/pages/login_page.dart';
+import 'package:myapp/authwrapper.dart';
 import 'firebase_options.dart';
 
-Future<void> main() async{
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform,);
-  runApp(const MyApp());
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  runApp(const ProviderScope(child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -17,7 +22,11 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(primarySwatch: Colors.orange),
-      home: const WidgetTree(),
+      routes: {
+        '/login': (context) => LoginPage(),
+        '/home': (context) => AuthWrapper(child: HomePage())
+      },
+      initialRoute: '/login',
     );
   }
 }

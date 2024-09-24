@@ -2,8 +2,10 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:myapp/pages/home_page.dart';
+import 'package:myapp/pages/profile_page.dart';
 import 'package:myapp/pages/login_page.dart';
 import 'package:myapp/authwrapper.dart';
+import 'package:myapp/pages/register_page.dart';
 import 'firebase_options.dart';
 
 Future<void> main() async {
@@ -24,7 +26,9 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(primarySwatch: Colors.orange),
       routes: {
         '/login': (context) => LoginPage(),
-        '/home': (context) => AuthWrapper(child: HomePage())
+        '/register':  (context)=> RegisterPage(),
+        '/profile': (context) => AuthWrapper(child: ProfilePage()),
+        '/home': (context)=> AuthWrapper(child: HomePage())
       },
       initialRoute: '/login',
     );

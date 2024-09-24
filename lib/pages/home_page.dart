@@ -1,45 +1,49 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:myapp/auth.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:myapp/providers/harrypotter.provider.dart';
 
-class HomePage extends StatelessWidget {
-  HomePage({super.key});
-
-  final User? user = Auth().currentUser;
-
-  Future<void> signOut() async {
-    await Auth().signOut();
-  }
-
-  Widget _title() {
-    return const Text('Firebase Auth');
-  }
-
-  Widget _userUid() {
-    return Text(user?.email ?? 'User email');
-  }
-
-  Widget _signOutButton() {
-    return ElevatedButton(onPressed: signOut, child: const Text('Sign Out'));
-  }
+class HomePage extends ConsumerWidget {
+  const HomePage({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: _title(),
+  Widget build(BuildContext context, WidgetRef ref) {
+    final dataAsyncValue = ref.watch(dataProvider);
+    return dataAsyncValue.when(
+      data: (data) {
+        return Scaffold(
+          appBar: AppBar(
+            title: Text('Fetched Data'),
+            actions: [
+              IconButton(
+                icon: Icon(Icons.account_circle),
+                onPressed: () {
+                  Navigator.pushNamed(context, '/profile');
+                },
+              ),
+            ],
+          ),
+          body: ListView.builder(
+            itemCount: data.length,
+            itemBuilder: (context, index) {
+              final item = data[index];
+              final fullName = item['fullName'] ?? 'Unknown Name';
+              final hogwartsHouse = item['hogwartsHouse'] ?? 'Unknown House';
+              return ListTile(
+                title: Text(fullName),
+                subtitle: Text(hogwartsHouse),
+              );
+            },
+          ),
+        );
+      },
+      loading: () => Scaffold(
+        body: Center(
+          child: CircularProgressIndicator(),
+        ),
       ),
-      body: Container(
-        height: double.infinity,
-        width: double.infinity,
-        padding: const EdgeInsets.all(20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            _userUid(),
-            _signOutButton()
-          ],
+      error: (error, stackTrace) => Scaffold(
+        body: Center(
+          child: Text('Error: $error'),
         ),
       ),
     );

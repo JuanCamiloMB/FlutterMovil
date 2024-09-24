@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:myapp/pages/login_page.dart';
+import 'package:myapp/pages/register_page.dart';
 import 'package:myapp/providers/auth.provider.dart';
 
 class AuthWrapper extends ConsumerWidget {
@@ -15,7 +16,13 @@ class AuthWrapper extends ConsumerWidget {
     return authState.when(
         data: (user) {
           if (user == null) {
+            final currentRoute = ModalRoute.of(context)?.settings.name;
+
+          if (currentRoute == '/register') {
+            return RegisterPage();
+          } else {
             return LoginPage();
+          }
           } else {
             return child;
           }

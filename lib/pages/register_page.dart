@@ -1,18 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/auth.dart';
 
-class LoginPage extends StatelessWidget {
-  LoginPage({super.key});
+class RegisterPage extends StatelessWidget {
+  RegisterPage({super.key});
   final TextEditingController _controllerEmail = TextEditingController();
   final TextEditingController _controllerPassword = TextEditingController();
+  final TextEditingController _controllerPasswordAgain =
+      TextEditingController();
 
-  Future<void> signInWithEmailAndPassword() async {
-    await Auth().signInWithEmailAndPassword(
+  Future<void> createWithEmailAndPassword() async {
+    await Auth().createWithEmailAndPassword(
         email: _controllerEmail.text, password: _controllerPassword.text);
-  }
-
-  Widget _title() {
-    return const Text('Firebase Auth');
   }
 
   Widget _entryField(String title, TextEditingController controller) {
@@ -26,20 +24,20 @@ class LoginPage extends StatelessWidget {
     return ElevatedButton(
         onPressed: () async {
           try {
-            await signInWithEmailAndPassword();
+            await createWithEmailAndPassword();
             Navigator.pushReplacementNamed(context, '/home');
           } catch (e) {
             print('Login failed: $e');
           }
         },
-        child: const Text('Login'));
+        child: const Text('Register'));
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: _title(),
+        title: Text('Register'),
       ),
       body: Container(
         height: double.infinity,
@@ -51,13 +49,12 @@ class LoginPage extends StatelessWidget {
           children: <Widget>[
             _entryField('email', _controllerEmail),
             _entryField('password', _controllerPassword),
+            _entryField('password again', _controllerPasswordAgain),
             // _errorMessage(),
             _submitButton(context),
-            ElevatedButton(
-                onPressed: () {
-                  Navigator.pushReplacementNamed(context, '/register');
-                },
-                child: const Text('Dont have a account'))
+            ElevatedButton(onPressed: (){
+              Navigator.pushReplacementNamed(context, '/login');
+            }, child: const Text('Already have an account'))
           ],
         ),
       ),

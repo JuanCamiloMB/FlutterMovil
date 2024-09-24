@@ -2,6 +2,8 @@
 
 A new Flutter project.
 
+Ejectura el comando ```git pull ```
+
 ## Getting Started
 
 This project is a starting point for a Flutter application.

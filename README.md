@@ -2,7 +2,11 @@
 
 A new Flutter project.
 
-Ejectura el comando ```git pull ```
+1. Ejectura el comando ```git pull https://github.com/JuanCamiloMB/FlutterMovil.git```
+
+2. Ejecutar ```flutter pub get```
+
+3. Ejecutar ```flutter run```
 
 ## Getting Started
 

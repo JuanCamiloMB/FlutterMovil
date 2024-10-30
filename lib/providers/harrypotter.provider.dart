@@ -8,7 +8,6 @@ Future<List<dynamic>> fetchCharacters() async {
   // Obtain shared preferences.
   final SharedPreferences prefs = await SharedPreferences.getInstance();
 
-  // Check if characters data already exists in shared preferences.
   final String? savedCharacters = prefs.getString('characters');
 
   if (savedCharacters != null) {
@@ -21,11 +20,8 @@ Future<List<dynamic>> fetchCharacters() async {
         Uri.parse('https://potterapi-fedeperin.vercel.app/es/characters');
     final String httpPackageInfo = await http.read(httpPackageUrl);
 
-    // Decode JSON and save to shared preferences.
     final List<dynamic> characters = jsonDecode(httpPackageInfo);
     await prefs.setString('characters', jsonEncode(characters));
-
-    print("Characters fetched from API and saved to cache.");
     return characters;
   }
 }
